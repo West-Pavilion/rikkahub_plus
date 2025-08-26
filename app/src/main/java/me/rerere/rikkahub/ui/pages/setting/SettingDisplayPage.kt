@@ -355,7 +355,7 @@ fun SettingDisplayPage(vm: SettingVM = koinViewModel()) {
                             onValueChange = {
                                 updateDisplaySetting(displaySetting.copy(fontSizeRatio = it))
                             },
-                            valueRange = 0.5f..2f,
+                            valueRange = 0.5f..3f,
                             steps = 11,
                             modifier = Modifier.weight(1f)
                         )
@@ -394,7 +394,7 @@ fun SettingDisplayPage(vm: SettingVM = koinViewModel()) {
                             onValueChange = {
                                 updateDisplaySetting(displaySetting.copy(codeBlockFontSizeRatio = it))
                             },
-                            valueRange = 0.5f..2f,
+                            valueRange = 0.5f..3f,
                             steps = 11,
                             modifier = Modifier.weight(1f)
                         )
