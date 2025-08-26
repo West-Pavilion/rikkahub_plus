@@ -373,6 +373,41 @@ fun SettingDisplayPage(vm: SettingVM = koinViewModel()) {
                     )
                 }
             }
+
+            item {
+                Card {
+                    ListItem(
+                        headlineContent = {
+                            Text(stringResource(R.string.setting_display_page_code_block_font_size_title))
+                        },
+                        colors = ListItemDefaults.colors(containerColor = Color.Transparent),
+                    )
+                    Row(
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp)
+                            .fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    ) {
+                        Slider(
+                            value = displaySetting.codeBlockFontSizeRatio,
+                            onValueChange = {
+                                updateDisplaySetting(displaySetting.copy(codeBlockFontSizeRatio = it))
+                            },
+                            valueRange = 0.5f..2f,
+                            steps = 11,
+                            modifier = Modifier.weight(1f)
+                        )
+                        Text(
+                            text = "${(displaySetting.codeBlockFontSizeRatio * 100).toInt()}%",
+                        )
+                    }
+                    MarkdownBlock(
+                        content = stringResource(R.string.setting_display_page_code_block_font_size_preview),
+                        modifier = Modifier.padding(8.dp),
+                    )
+                }
+            }
         }
     }
 }

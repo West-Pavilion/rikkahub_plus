@@ -66,6 +66,7 @@ import me.rerere.rikkahub.ui.components.table.ColumnDefinition
 import me.rerere.rikkahub.ui.components.table.ColumnWidth
 import me.rerere.rikkahub.ui.components.table.DataTable
 import me.rerere.rikkahub.ui.theme.JetbrainsMono
+import me.rerere.rikkahub.ui.context.LocalSettings
 import me.rerere.rikkahub.utils.toDp
 import me.rerere.rikkahub.utils.unescapeHtml
 import org.intellij.markdown.IElementType
@@ -496,6 +497,7 @@ fun MarkdownNode(
         }
 
         MarkdownElementTypes.CODE_BLOCK -> {
+            val settings = LocalSettings.current.displaySetting
             val code = node.getTextInNode(content)
             HighlightCodeBlock(
                 code = code,
@@ -503,12 +505,14 @@ fun MarkdownNode(
                 modifier = Modifier
                     .padding(bottom = 4.dp)
                     .fillMaxWidth(),
-                completeCodeBlock = true
+                completeCodeBlock = true,
+                codeBlockFontSizeRatio = settings.codeBlockFontSizeRatio
             )
         }
 
         // 代码块
         MarkdownElementTypes.CODE_FENCE -> {
+            val settings = LocalSettings.current.displaySetting
             // 这里不能直接取CODE_FENCE_CONTENT的内容，因为首行indent没有包含在内
             // 因此，需要往上找到最后一个EOL元素，用它来作为代码块的起始offset
             val contentStartIndex =
@@ -535,7 +539,8 @@ fun MarkdownNode(
                 modifier = Modifier
                     .padding(bottom = 4.dp)
                     .fillMaxWidth(),
-                completeCodeBlock = hasEnd
+                completeCodeBlock = hasEnd,
+                codeBlockFontSizeRatio = settings.codeBlockFontSizeRatio
             )
         }
 

@@ -448,6 +448,8 @@
   <string name="setting_display_page_show_message_jumper_desc">在捲動聊天列表時，在右側顯示快速跳轉按鈕</string>
   <string name="setting_display_page_font_size_title">聊天字體大小</string>
   <string name="setting_display_page_font_size_preview">這是一個**示例**的聊天文本</string>
+  <string name="setting_display_page_code_block_font_size_title">代碼塊字體大小</string>
+  <string name="setting_display_page_code_block_font_size_preview">```javascript\nfunction hello() {\n    console.log("Hello World!");\n}\n```</string>
   <string name="setting_display_page_enable_message_generation_haptic_effect_title">訊息生成觸覺回饋</string>
   <string name="setting_display_page_enable_message_generation_haptic_effect_desc">訊息生成時啟用觸覺回饋效果</string>
   <string name="setting_display_page_amoled_dark_mode_title">AMOLED 暗色模式</string>

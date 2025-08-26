@@ -67,9 +67,10 @@ fun HighlightCodeBlock(
     language: String,
     modifier: Modifier = Modifier,
     completeCodeBlock: Boolean = true,
+    codeBlockFontSizeRatio: Float = 1.0f,
     style: TextStyle? = TextStyle(
-        fontSize = 12.sp,
-        lineHeight = 16.sp,
+        fontSize = (12 * codeBlockFontSizeRatio).sp,
+        lineHeight = (16 * codeBlockFontSizeRatio).sp,
     ),
 ) {
     val darkMode = LocalDarkMode.current
