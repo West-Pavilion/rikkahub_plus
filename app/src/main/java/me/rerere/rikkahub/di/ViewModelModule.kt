@@ -28,7 +28,6 @@ val viewModelModule = module {
             updateChecker = get(),
             providerManager = get(),
             localTools = get(),
-            analytics = get()
         )
     }
     viewModelOf(::SettingVM)

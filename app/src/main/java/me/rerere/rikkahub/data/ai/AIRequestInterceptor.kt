@@ -1,6 +1,7 @@
 package me.rerere.rikkahub.data.ai
 
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import android.util.Log
+import android.widget.Toast
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.jsonObject
 import me.rerere.rikkahub.utils.JsonInstant
@@ -10,7 +11,7 @@ import okhttp3.Request
 import okhttp3.Response
 import kotlin.io.encoding.Base64
 
-class AIRequestInterceptor(private val remoteConfig: FirebaseRemoteConfig) : Interceptor {
+class AIRequestInterceptor() : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         var request = chain.request()
         val host = request.url.host
@@ -33,15 +34,7 @@ class AIRequestInterceptor(private val remoteConfig: FirebaseRemoteConfig) : Int
                 "/v1/models"
             )
         ) {
-            val bodyJson = request.readBodyAsJson()
-            val model = bodyJson?.jsonObject["model"]?.jsonPrimitiveOrNull?.content
-            val freeModels = remoteConfig.getString("silicon_cloud_free_models").split(",")
-            if (model.isNullOrEmpty() || model in freeModels) {
-                val apiKey = String(Base64.decode(remoteConfig.getString("silicon_cloud_api_key")))
-                return request.newBuilder()
-                    .header("Authorization", "Bearer $apiKey")
-                    .build()
-            }
+            Log.i("没有 api key","你还没有填写 api key，快去填写吧！")
         }
 
         return request

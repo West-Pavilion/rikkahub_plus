@@ -80,7 +80,6 @@ val dataSourceModule = module {
             .followSslRedirects(true)
             .followRedirects(true)
             .retryOnConnectionFailure(true)
-            .addInterceptor(AIRequestInterceptor(remoteConfig = get()))
             .addInterceptor(HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.HEADERS
             })
