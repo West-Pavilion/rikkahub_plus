@@ -302,6 +302,10 @@ private fun ConversationItem(
         ) {
             Text(
                 text = conversation.title.ifBlank { stringResource(id = R.string.chat_page_new_message) },
+                style = MaterialTheme.typography.titleSmall.copy(
+                    fontSize = MaterialTheme.typography.bodySmall.fontSize * 2.0f,
+                    lineHeight = MaterialTheme.typography.bodySmall.lineHeight * 2.0f
+                ),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )

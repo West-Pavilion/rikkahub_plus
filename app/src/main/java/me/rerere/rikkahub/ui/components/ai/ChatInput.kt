@@ -433,9 +433,18 @@ fun ChatInput(
                                 },
                             shape = RoundedCornerShape(32.dp),
                             placeholder = {
-                                Text(stringResource(R.string.chat_input_placeholder))
+                                Text(
+                                    text = stringResource(R.string.chat_input_placeholder),
+                                    style = MaterialTheme.typography.bodyLarge.copy(
+                                        fontSize = MaterialTheme.typography.bodyLarge.fontSize * settings.displaySetting.fontSizeRatio
+                                    )
+                                )
                             },
                             maxLines = 5,
+                            textStyle = MaterialTheme.typography.bodyLarge.copy(
+                                fontSize = MaterialTheme.typography.bodyLarge.fontSize * settings.displaySetting.fontSizeRatio,
+                                lineHeight = MaterialTheme.typography.bodyLarge.lineHeight * settings.displaySetting.fontSizeRatio
+                            ),
                             colors = TextFieldDefaults.colors().copy(
                                 unfocusedIndicatorColor = Color.Transparent,
                                 focusedIndicatorColor = Color.Transparent,
@@ -680,6 +689,7 @@ private fun FullScreenEditor(
     state: ChatInputState,
     onDone: () -> Unit
 ) {
+    val settings = LocalSettings.current
     BasicAlertDialog(
         onDismissRequest = {
             onDone()
@@ -723,8 +733,17 @@ private fun FullScreenEditor(
                             .fillMaxSize(),
                         shape = RoundedCornerShape(32.dp),
                         placeholder = {
-                            Text(stringResource(R.string.chat_input_placeholder))
+                            Text(
+                                text = stringResource(R.string.chat_input_placeholder),
+                                style = MaterialTheme.typography.bodyLarge.copy(
+                                    fontSize = MaterialTheme.typography.bodyLarge.fontSize * settings.displaySetting.fontSizeRatio
+                                )
+                            )
                         },
+                        textStyle = MaterialTheme.typography.bodyLarge.copy(
+                            fontSize = MaterialTheme.typography.bodyLarge.fontSize * settings.displaySetting.fontSizeRatio,
+                            lineHeight = MaterialTheme.typography.bodyLarge.lineHeight * settings.displaySetting.fontSizeRatio
+                        ),
                         colors = TextFieldDefaults.colors().copy(
                             unfocusedIndicatorColor = Color.Transparent,
                             focusedIndicatorColor = Color.Transparent,

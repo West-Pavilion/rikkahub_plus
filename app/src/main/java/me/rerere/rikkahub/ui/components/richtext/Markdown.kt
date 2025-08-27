@@ -205,37 +205,37 @@ object HeaderStyle {
     val H1 = TextStyle(
         fontStyle = FontStyle.Normal,
         fontWeight = FontWeight.Bold,
-        fontSize = 24.sp
+        fontSize = 24.sp * 2
     )
 
     val H2 = TextStyle(
         fontStyle = FontStyle.Normal,
         fontWeight = FontWeight.Bold,
-        fontSize = 20.sp
+        fontSize = 20.sp * 2
     )
 
     val H3 = TextStyle(
         fontStyle = FontStyle.Normal,
         fontWeight = FontWeight.Bold,
-        fontSize = 18.sp
+        fontSize = 18.sp * 2
     )
 
     val H4 = TextStyle(
         fontStyle = FontStyle.Normal,
         fontWeight = FontWeight.Bold,
-        fontSize = 16.sp
+        fontSize = 16.sp * 2
     )
 
     val H5 = TextStyle(
         fontStyle = FontStyle.Normal,
         fontWeight = FontWeight.Bold,
-        fontSize = 14.sp
+        fontSize = 14.sp * 2
     )
 
     val H6 = TextStyle(
         fontStyle = FontStyle.Normal,
         fontWeight = FontWeight.Bold,
-        fontSize = 12.sp
+        fontSize = 12.sp * 2
     )
 }
 

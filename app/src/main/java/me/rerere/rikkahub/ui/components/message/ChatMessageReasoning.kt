@@ -166,7 +166,10 @@ fun ChatMessageReasoning(
                 )
                 Text(
                     text = stringResource(R.string.deep_thinking),
-                    style = MaterialTheme.typography.titleSmall,
+                    style = MaterialTheme.typography.titleSmall.copy(
+                        fontSize = MaterialTheme.typography.bodySmall.fontSize * settings.displaySetting.fontSizeRatio,
+                        lineHeight = MaterialTheme.typography.bodySmall.lineHeight * settings.displaySetting.fontSizeRatio
+                    ),
                     color = MaterialTheme.colorScheme.secondary,
                     modifier = Modifier.shimmer(
                         isLoading = loading
@@ -175,7 +178,10 @@ fun ChatMessageReasoning(
                 if (duration > 0.seconds) {
                     Text(
                         text = "(${duration.toString(DurationUnit.SECONDS, 1)})",
-                        style = MaterialTheme.typography.titleSmall,
+                        style = MaterialTheme.typography.titleSmall.copy(
+                            fontSize = MaterialTheme.typography.bodySmall.fontSize * settings.displaySetting.fontSizeRatio,
+                            lineHeight = MaterialTheme.typography.bodySmall.lineHeight * settings.displaySetting.fontSizeRatio
+                        ),
                         color = MaterialTheme.colorScheme.secondary,
                         modifier = Modifier.shimmer(
                             isLoading = loading
@@ -237,7 +243,10 @@ fun ChatMessageReasoning(
                     SelectionContainer {
                         MarkdownBlock(
                             content = reasoning.reasoning,
-                            style = MaterialTheme.typography.bodySmall,
+                            style = MaterialTheme.typography.bodySmall.copy(
+                                fontSize = MaterialTheme.typography.bodySmall.fontSize * settings.displaySetting.fontSizeRatio,
+                                lineHeight = MaterialTheme.typography.bodySmall.lineHeight * settings.displaySetting.fontSizeRatio
+                            ),
                             modifier = Modifier.fillMaxSize(),
                         )
                     }

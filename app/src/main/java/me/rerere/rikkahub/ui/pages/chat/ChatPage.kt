@@ -448,7 +448,7 @@ private fun TopBar(
                     Text(
                         text = conversation.title.ifBlank { stringResource(R.string.chat_page_new_chat) },
                         maxLines = 1,
-                        style = MaterialTheme.typography.bodyMedium,
+                        style = MaterialTheme.typography.bodyLarge,
                         overflow = TextOverflow.Ellipsis,
                     )
                     if (model != null && provider != null) {
@@ -457,8 +457,8 @@ private fun TopBar(
                             overflow = TextOverflow.Ellipsis,
                             maxLines = 1,
                             color = LocalContentColor.current.copy(0.65f),
-                            style = MaterialTheme.typography.labelSmall.copy(
-                                fontSize = 8.sp,
+                            style = MaterialTheme.typography.bodyMedium.copy(
+                                fontSize = 12.sp,
                             )
                         )
                     }

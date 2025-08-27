@@ -299,6 +299,8 @@
   <string name="setting_display_page_show_updates_desc">アプリのアップデート通知を表示するかどうか</string>
   <string name="setting_display_page_font_size_title">チャットフォントサイズ</string>
   <string name="setting_display_page_font_size_preview">これは**サンプル**のチャットテキストです</string>
+  <string name="setting_display_page_code_block_font_size_title">コードブロックフォントサイズ</string>
+  <string name="setting_display_page_code_block_font_size_preview">```javascript\nfunction hello() {\n    console.log("Hello World!");\n}\n```</string>
   <string name="setting_display_page_enable_message_generation_haptic_effect_title">メッセージ生成時の触覚効果</string>
   <string name="setting_display_page_enable_message_generation_haptic_effect_desc">メッセージ生成時に触覚フィードバックを有効にする</string>
   <string name="setting_display_page_amoled_dark_mode_title">AMOLED ダークモード</string>
