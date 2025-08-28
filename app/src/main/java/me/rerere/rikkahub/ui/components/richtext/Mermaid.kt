@@ -410,7 +410,6 @@ private fun buildMermaidHtml(
                         // Draw watermark
                         ctx.font = '14px Arial';
                         ctx.fillStyle = '${onBackground}';
-                        ctx.fillText('rikka-ai.com', 20, canvas.height - 10);
 
                         // Get PNG image as base64
                         const pngBase64 = canvas.toDataURL('image/png').split(',')[1];
