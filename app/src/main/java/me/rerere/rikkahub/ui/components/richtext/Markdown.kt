@@ -59,6 +59,7 @@ import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.fastForEach
 import androidx.core.net.toUri
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.composables.icons.lucide.Check
 import com.composables.icons.lucide.Lucide
 import me.rerere.highlight.HighlightText
@@ -67,6 +68,7 @@ import me.rerere.rikkahub.ui.components.table.ColumnWidth
 import me.rerere.rikkahub.ui.components.table.DataTable
 import me.rerere.rikkahub.ui.theme.JetbrainsMono
 import me.rerere.rikkahub.ui.context.LocalSettings
+import me.rerere.rikkahub.ui.pages.chat.ChatVM
 import me.rerere.rikkahub.utils.toDp
 import me.rerere.rikkahub.utils.unescapeHtml
 import org.intellij.markdown.IElementType
@@ -78,6 +80,7 @@ import org.intellij.markdown.flavours.gfm.GFMElementTypes
 import org.intellij.markdown.flavours.gfm.GFMFlavourDescriptor
 import org.intellij.markdown.flavours.gfm.GFMTokenTypes
 import org.intellij.markdown.parser.MarkdownParser
+import org.koin.androidx.compose.koinViewModel
 
 private val flavour by lazy {
     GFMFlavourDescriptor(
@@ -202,40 +205,40 @@ private fun dumpAst(node: ASTNode, text: String, indent: String = "") {
 }
 
 object HeaderStyle {
-    val H1 = TextStyle(
+    fun getH1(fontRatio: Float = 1.0f) = TextStyle(
         fontStyle = FontStyle.Normal,
         fontWeight = FontWeight.Bold,
-        fontSize = 24.sp * 2
+        fontSize = (24 * fontRatio).sp
     )
 
-    val H2 = TextStyle(
+    fun getH2(fontRatio: Float = 1.0f) = TextStyle(
         fontStyle = FontStyle.Normal,
         fontWeight = FontWeight.Bold,
-        fontSize = 20.sp * 2
+        fontSize = (20 * fontRatio).sp
     )
 
-    val H3 = TextStyle(
+    fun getH3(fontRatio: Float = 1.0f) = TextStyle(
         fontStyle = FontStyle.Normal,
         fontWeight = FontWeight.Bold,
-        fontSize = 18.sp * 2
+        fontSize = (18 * fontRatio).sp
     )
 
-    val H4 = TextStyle(
+    fun getH4(fontRatio: Float = 1.0f) = TextStyle(
         fontStyle = FontStyle.Normal,
         fontWeight = FontWeight.Bold,
-        fontSize = 16.sp * 2
+        fontSize = (16 * fontRatio).sp
     )
 
-    val H5 = TextStyle(
+    fun getH5(fontRatio: Float = 1.0f) = TextStyle(
         fontStyle = FontStyle.Normal,
         fontWeight = FontWeight.Bold,
-        fontSize = 14.sp * 2
+        fontSize = (14 * fontRatio).sp
     )
 
-    val H6 = TextStyle(
+    fun getH6(fontRatio: Float = 1.0f) = TextStyle(
         fontStyle = FontStyle.Normal,
         fontWeight = FontWeight.Bold,
-        fontSize = 12.sp * 2
+        fontSize = (12 * fontRatio).sp
     )
 }
 
@@ -277,13 +280,14 @@ fun MarkdownNode(
         MarkdownElementTypes.ATX_4,
         MarkdownElementTypes.ATX_5,
         MarkdownElementTypes.ATX_6 -> {
+            val settings = LocalSettings.current.displaySetting
             val style = when (node.type) {
-                MarkdownElementTypes.ATX_1 -> HeaderStyle.H1
-                MarkdownElementTypes.ATX_2 -> HeaderStyle.H2
-                MarkdownElementTypes.ATX_3 -> HeaderStyle.H3
-                MarkdownElementTypes.ATX_4 -> HeaderStyle.H4
-                MarkdownElementTypes.ATX_5 -> HeaderStyle.H5
-                MarkdownElementTypes.ATX_6 -> HeaderStyle.H6
+                MarkdownElementTypes.ATX_1 -> HeaderStyle.getH1(settings.fontSizeRatio)
+                MarkdownElementTypes.ATX_2 -> HeaderStyle.getH2(settings.fontSizeRatio)
+                MarkdownElementTypes.ATX_3 -> HeaderStyle.getH3(settings.fontSizeRatio)
+                MarkdownElementTypes.ATX_4 -> HeaderStyle.getH4(settings.fontSizeRatio)
+                MarkdownElementTypes.ATX_5 -> HeaderStyle.getH5(settings.fontSizeRatio)
+                MarkdownElementTypes.ATX_6 -> HeaderStyle.getH6(settings.fontSizeRatio)
                 else -> throw IllegalArgumentException("Unknown header type")
             }
             ProvideTextStyle(value = style) {

@@ -436,7 +436,8 @@ fun ChatInput(
                                 Text(
                                     text = stringResource(R.string.chat_input_placeholder),
                                     style = MaterialTheme.typography.bodyLarge.copy(
-                                        fontSize = MaterialTheme.typography.bodyLarge.fontSize * settings.displaySetting.fontSizeRatio
+                                        fontSize = MaterialTheme.typography.bodyLarge.fontSize * settings.displaySetting.fontSizeRatio,
+                                        lineHeight = MaterialTheme.typography.bodyLarge.lineHeight * settings.displaySetting.fontSizeRatio
                                     )
                                 )
                             },
@@ -736,7 +737,8 @@ private fun FullScreenEditor(
                             Text(
                                 text = stringResource(R.string.chat_input_placeholder),
                                 style = MaterialTheme.typography.bodyLarge.copy(
-                                    fontSize = MaterialTheme.typography.bodyLarge.fontSize * settings.displaySetting.fontSizeRatio
+                                    fontSize = MaterialTheme.typography.bodyLarge.fontSize * settings.displaySetting.fontSizeRatio,
+                                    lineHeight = MaterialTheme.typography.bodyLarge.lineHeight * settings.displaySetting.fontSizeRatio
                                 )
                             )
                         },
