@@ -43,12 +43,14 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.Pin
 import com.composables.icons.lucide.PinOff
 import com.composables.icons.lucide.RefreshCw
 import com.composables.icons.lucide.Trash2
 import com.composables.icons.lucide.X
+import org.koin.androidx.compose.koinViewModel
 import me.rerere.rikkahub.R
 import me.rerere.rikkahub.data.model.Conversation
 import me.rerere.rikkahub.ui.theme.extendColors
@@ -272,6 +274,10 @@ private fun ConversationItem(
     onPin: (Conversation) -> Unit = {},
     onClick: (Conversation) -> Unit
 ) {
+    val vm: ChatVM = koinViewModel(
+    )
+    val settings by vm.settings.collectAsStateWithLifecycle()
+
     val interactionSource = remember { MutableInteractionSource() }
     val backgroundColor = if (selected) {
         MaterialTheme.colorScheme.surfaceColorAtElevation(2.dp)
@@ -302,9 +308,9 @@ private fun ConversationItem(
         ) {
             Text(
                 text = conversation.title.ifBlank { stringResource(id = R.string.chat_page_new_message) },
-                style = MaterialTheme.typography.titleSmall.copy(
-                    fontSize = MaterialTheme.typography.bodySmall.fontSize * 2.0f,
-                    lineHeight = MaterialTheme.typography.bodySmall.lineHeight * 2.0f
+                style = MaterialTheme.typography.bodySmall.copy(
+                    fontSize = MaterialTheme.typography.bodySmall.fontSize * settings.displaySetting.fontSizeRatio,
+                    lineHeight = MaterialTheme.typography.bodySmall.lineHeight * settings.displaySetting.fontSizeRatio
                 ),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis

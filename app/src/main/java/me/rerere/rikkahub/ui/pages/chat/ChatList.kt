@@ -327,7 +327,10 @@ fun ChatList(
                     ) {
                         Text(
                             text = suggestion,
-                            style = MaterialTheme.typography.bodySmall
+                            style = MaterialTheme.typography.bodySmall.copy(
+                                fontSize = MaterialTheme.typography.bodySmall.fontSize * settings.displaySetting.fontSizeRatio,
+                                lineHeight = MaterialTheme.typography.bodySmall.lineHeight * settings.displaySetting.fontSizeRatio
+                            )
                         )
                     }
                 }
