@@ -1,0 +1,105 @@
+name: Build APK
+
+on:
+  push:
+    branches: [ "master", "main" ]
+  pull_request:
+    branches: [ "master", "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Gradle cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Create mock google-services.json
+        run: |
+          mkdir -p app
+          cat > app/google-services.json << 'EOF'
+          {
+            "project_info": {
+              "project_number": "123456789",
+              "firebase_url": "https://mock-project.firebaseio.com",
+              "project_id": "mock-project",
+              "storage_bucket": "mock-project.appspot.com"
+            },
+            "client": [
+              {
+                "client_info": {
+                  "mobilesdk_app_id": "1:123456789:android:abcdef123456789",
+                  "android_client_info": {
+                    "package_name": "me.rerere.rikkahub"
+                  }
+                },
+                "oauth_client": [
+                  {
+                    "client_id": "123456789-abcdefghijklmnop.apps.googleusercontent.com",
+                    "client_type": 3
+                  }
+                ],
+                "api_key": [
+                  {
+                    "current_key": "AIzaSyDummyKeyForBuildingOnly"
+                  }
+                ],
+                "services": {
+                  "appinvite_service": {
+                    "other_platform_oauth_client": [
+                      {
+                        "client_id": "123456789-abcdefghijklmnop.apps.googleusercontent.com",
+                        "client_type": 3
+                      }
+                    ]
+                  }
+                }
+              }
+            ],
+            "configuration_version": "1"
+          }
+          EOF
+
+      - name: Gradle Build Debug
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug --stacktrace
+
+      - name: Upload debug artifacts
+        uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: rikkahub-debug-v1.5.1
+          path: app/build/outputs/apk/debug/*.apk
+
+      - name: Build summary
+        if: success()
+        run: |
+          echo "## ✅ Build Successful!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Version:** 1.5.1 (Build 90)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Artifacts:** Debug APK generated successfully" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**APK Files:**" >> $GITHUB_STEP_SUMMARY
+          ls -la app/build/outputs/apk/debug/*.apk | while read line; do
+            echo "- $(basename ${line##* })" >> $GITHUB_STEP_SUMMARY
+          done
