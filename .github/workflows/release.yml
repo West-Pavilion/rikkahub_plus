@@ -25,26 +25,102 @@ jobs:
             ~/.gradle/caches
             ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
       - name: Prepare build files
         run: |
-          # 解码base64编码的keystore文件
-          echo "${{ secrets.KEY_BASE64 }}" | base64 -d > app/app.key
+          # 解码base64编码的keystore文件 (如果提供的话)
+          if [ ! -z "${{ secrets.KEY_BASE64 }}" ]; then
+            echo "${{ secrets.KEY_BASE64 }}" | base64 -d > app/app.key
+          fi
           
-          # 写入签名配置到local.properties
-          echo "${{ secrets.SIGNING_CONFIG }}" > local.properties
+          # 写入签名配置到local.properties (如果提供的话)
+          if [ ! -z "${{ secrets.SIGNING_CONFIG }}" ]; then
+            echo "${{ secrets.SIGNING_CONFIG }}" > local.properties
+          fi
           
-          # 写入Google Services配置
-          echo '${{ secrets.GOOGLE_SERVICES_JSON }}' > app/google-services.json
+          # 写入Google Services配置 (如果提供的话，否则使用mock)
+          if [ ! -z "${{ secrets.GOOGLE_SERVICES_JSON }}" ]; then
+            echo '${{ secrets.GOOGLE_SERVICES_JSON }}' > app/google-services.json
+          else
+            cat > app/google-services.json << 'EOF'
+            {
+              "project_info": {
+                "project_number": "123456789",
+                "firebase_url": "https://mock-project.firebaseio.com",
+                "project_id": "mock-project",
+                "storage_bucket": "mock-project.appspot.com"
+              },
+              "client": [
+                {
+                  "client_info": {
+                    "mobilesdk_app_id": "1:123456789:android:abcdef123456789",
+                    "android_client_info": {
+                      "package_name": "me.rerere.rikkahub"
+                    }
+                  },
+                  "oauth_client": [
+                    {
+                      "client_id": "123456789-abcdefghijklmnop.apps.googleusercontent.com",
+                      "client_type": 3
+                    }
+                  ],
+                  "api_key": [
+                    {
+                      "current_key": "AIzaSyDummyKeyForBuildingOnly"
+                    }
+                  ],
+                  "services": {
+                    "appinvite_service": {
+                      "other_platform_oauth_client": [
+                        {
+                          "client_id": "123456789-abcdefghijklmnop.apps.googleusercontent.com",
+                          "client_type": 3
+                        }
+                      ]
+                    }
+                  }
+                }
+              ],
+              "configuration_version": "1"
+            }
+          EOF
+          fi
 
       - name: Gradle Build
         run: |
           chmod +x gradlew
-          ./gradlew assembleRelease
+          # 如果有签名配置就构建release版本，否则构建debug版本
+          if [ -f local.properties ] && grep -q "storeFile" local.properties; then
+            echo "Building signed release APK..."
+            ./gradlew assembleRelease --stacktrace
+          else
+            echo "No signing config found, building debug APK..."
+            ./gradlew assembleDebug --stacktrace
+          fi
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         if: success()
         with:
-          name: artifacts
-          path: app/build/outputs/apk/release/*.apk
+          name: rikkahub-v1.5.1-build-90
+          path: |
+            app/build/outputs/apk/release/*.apk
+            app/build/outputs/apk/debug/*.apk
+
+      - name: Build summary
+        if: success()
+        run: |
+          echo "## 🎉 RikkaHub Build Completed!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Version:** 1.5.1" >> $GITHUB_STEP_SUMMARY
+          echo "**Build Code:** 90" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Generated APK Files:**" >> $GITHUB_STEP_SUMMARY
+          if [ -d app/build/outputs/apk ]; then
+            find app/build/outputs/apk -name "*.apk" | while read apk; do
+              size=$(ls -lh "$apk" | awk '{print $5}')
+              echo "- $(basename "$apk") - $size" >> $GITHUB_STEP_SUMMARY
+            done
+          fi

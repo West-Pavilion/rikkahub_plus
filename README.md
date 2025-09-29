@@ -22,6 +22,14 @@ Click to join our Discord server 👉 [【RikkaHub】](https://discord.gg/9weBqx
 🔗 [Download from Website](https://rikka-ai.com/download)
 🔗 [Download from Google Play](https://play.google.com/store/apps/details?id=me.rerere.rikkahub)
 
+### Latest Build Status
+
+[![Build APK](https://github.com/West-Pavilion/rikkahub_plus/actions/workflows/build.yml/badge.svg)](https://github.com/West-Pavilion/rikkahub_plus/actions/workflows/build.yml)
+
+- **Current Version**: 1.5.1 (Build 90)
+- **Build Type**: Debug APK available via GitHub Actions
+- **CI Status**: Automated builds on push to main branch
+
 ## ✨ Features
 
 - 🎨 Modern Android app design (Material You / Predictive Back)
